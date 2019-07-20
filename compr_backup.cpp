@@ -26,7 +26,7 @@ using std::string;
 size_t compress_line(cacheline* line) {
 
   //cerr << line->float32[4].b.exp << endl;
-  int i, nzeros=0, nibbles_zeros=0;
+  int i, nzeros=0, nibbles_zeros=0, consc_zeros=0;
   for(i=0;i<64;i++) {
      if(line->byte[i]==0) {
         nzeros+=2;
@@ -38,7 +38,8 @@ size_t compress_line(cacheline* line) {
            }
            if((line->byte[i]&0xF0)==0) {
   		nibbles_zeros++;
-           }
+           } 
+           consc_zeros++;
            nzeros=0;
         }
         if((line->byte[i]&0x0F)==0) {
@@ -49,8 +50,10 @@ size_t compress_line(cacheline* line) {
   } 
   if(nzeros>1) {
      nibbles_zeros+=nzeros;
+     consc_zeros++;
+     
   }
-  return nibbles_zeros/2;
+  return (64-nibbles_zeros/2-consc_zeros);
 }
 
 // Return the compressed size of the dataset, rounded up to the nearest byte
