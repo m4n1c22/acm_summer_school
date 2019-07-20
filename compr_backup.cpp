@@ -8,7 +8,16 @@ size_t compress_line(cacheline* line) {
      }
      else {
         if(nzeros!=0) {
-
+           if(nzeros!=1) {
+               nibbles_zeros+=nzeros;
+               nzeros=0;
+           }
+           if((line->byte[i]&0xF0)==0) {
+                nibbles_zeros++;
+           }
+        }
+        else if((line->byte[i]&0x0F)==0) {
+           nzeros=1;
         }
      }
   }
