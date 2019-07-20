@@ -10,16 +10,17 @@ size_t compress_line(cacheline* line) {
         if(nzeros!=0) {
            if(nzeros!=1) {
                nibbles_zeros+=nzeros;
-               nzeros=0;
            }
            if((line->byte[i]&0xF0)==0) {
                 nibbles_zeros++;
            }
+           nzeros=0;
         }
-        else if((line->byte[i]&0x0F)==0) {
+        if((line->byte[i]&0x0F)==0) {
            nzeros=1;
         }
      }
+     //printf("\nNumber of zeros(%x): %d", line->byte[i], nzeros);
   }
   if(nzeros>1) {
      nibbles_zeros+=nzeros;
