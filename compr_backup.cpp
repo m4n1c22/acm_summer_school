@@ -53,7 +53,7 @@ size_t compress_line(cacheline* line) {
      consc_zeros++;
      
   }
-  return (64-nibbles_zeros/2-consc_zeros);
+  return (64*8-nibbles_zeros*4+consc_zeros*7);
 }
 
 // Return the compressed size of the dataset, rounded up to the nearest byte
@@ -174,7 +174,7 @@ int main(int argc, char** argv) {
   // See what kind of compression we can expect!
   size_t compressed_size = compress(bytes, truncated_size);
 
-  float compression_ratio = (float) truncated_size / (float) compressed_size;
+  float compression_ratio = (float) (truncated_size*8) / (float) compressed_size;
 
   cout << "Compression ratio: " << std::setprecision(3) << compression_ratio << endl;
 
