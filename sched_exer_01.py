@@ -4,7 +4,7 @@ import requests
 response = urlopen("http://localhost:5000/redfish/v1/CompositionService/ResourceBlocks")
 json_data = json.loads(response.read().decode('utf-8'))
 
-resource_blocks_numbers= json_data["Links"]["Members@odata.count"]
+resource_blocks_available= json_data["Links"]["Members@odata.count"]
 
 blocks = json_data["Links"]["Members"]
 print("Available resource blocks : "+str(resource_blocks_available))
